@@ -9,10 +9,9 @@ on:		# 조건
 jobs:
   deploy:
     runs-on: ubuntu-latest # 작업환경 : Ubuntu 최신버전
-
     steps:
     # Build 전 pre-code-check (코드 검사)
-    - name: Checkout code
+    - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@master 
       with:
         host: ${{ secrets.TEST_CI_CD_SERVER_HOST}}
@@ -21,5 +20,6 @@ jobs:
         port: ${{ secrets.TEST_CI_CD_SERVER_PORT}}
         script: |
           cd ~/ci_cd_test/app
+          git pull
           pkill -9 python3
           nohup python3 main.py &
